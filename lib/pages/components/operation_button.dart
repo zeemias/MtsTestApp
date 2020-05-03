@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mts_test_app/models/enums/constants.dart';
 import 'package:mts_test_app/models/enums/picture_state.dart';
+import 'package:mts_test_app/models/picture.dart';
 import 'package:mts_test_app/models/pictures.dart';
 import 'package:mts_test_app/services/image_service.dart';
 
@@ -8,16 +9,16 @@ class OperationButton extends StatelessWidget {
   final int selectedPageIndex;
 
   OperationButton({ 
-    this.selectedPageIndex,
+    @required this.selectedPageIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    var picture = Pictures.pictures[selectedPageIndex];
+    Picture picture = Pictures.pictures[selectedPageIndex];
 
     return StreamBuilder<PictureState>(
       stream: picture.stateController.stream,
-      builder: (context, stateControllerSnapshot) {
+      builder: (context, _) {
         switch (picture.state) {
           case PictureState.notProcessed:
             return RaisedButton(
@@ -28,7 +29,7 @@ class OperationButton extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-                  'Обработать изображение',
+                  'Обрезать изображение',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -53,12 +54,12 @@ class OperationButton extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                  picture.openedController.add(true);
+                picture.openedController.add(true);
               },
             );
 
           default:
-          return Container();
+            return Container();
         }
       },
     );

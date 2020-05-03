@@ -5,43 +5,39 @@ import 'package:mts_test_app/models/pictures.dart';
 
 class ImageSlider extends StatelessWidget {
   final int selectedPageIndex;
-  final Orientation orientation;
-  final double screenWidth;
+  final bool orientationPortrait;
   final Function(int pageIndex) onPageChanged;
 
   ImageSlider({ 
-    this.selectedPageIndex,
-    this.orientation,
-    this.screenWidth,
-    this.onPageChanged,
+    @required this.selectedPageIndex,
+    @required this.orientationPortrait,
+    @required this.onPageChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    var viewportFraction = orientation == Orientation.portrait 
-      ? 0.7 
-      : 0.5;
-
     return PageView(
       controller: PageController(
         initialPage: selectedPageIndex,
-        viewportFraction: viewportFraction,
+        viewportFraction: orientationPortrait 
+          ? 0.7 
+          : 0.5,
       ),
       children: List<Widget>.generate(
         Pictures.pictures.length, (index) {
           return Center(
             child: Container(
-              height: screenWidth * 0.65,
-              width: screenWidth * 0.65,
+              height: MediaQuery.of(context).size.shortestSide * 0.65,
+              width: MediaQuery.of(context).size.shortestSide * 0.65,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: ExactAssetImage(Pictures.pictures[index].image),
+                  image: AssetImage(Pictures.pictures[index].image),
                   fit: BoxFit.cover,
                 ),
               ),
               child: StreamBuilder<PictureState>(
                 stream: Pictures.pictures[index].stateController.stream,
-                builder: (context, stateControllerSnapshot) {
+                builder: (context, _) {
                   if (Pictures.pictures[index].state != PictureState.processing)
                     return Container();
 

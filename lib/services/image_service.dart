@@ -11,13 +11,13 @@ class ImageService {
     var image = await decodeImageFromList(imageData.buffer.asUint8List());
     log('sourceWidth: ${image.width}, sourceHeight: ${image.height}');
     
-    double resizeWidth = (image.width == image.height) || (image.width > image.height) 
+    double resizeWidth = image.width >= image.height
       ? 1200 
-      : (1200/image.height) * image.width;
+      : 1200 * image.width / image.height;
 
-    double resizeHeight = (image.width == image.height) || (image.width < image.height) 
+    double resizeHeight = image.width <= image.height 
       ? 1200 
-      : (1200/image.width) * image.height;
+      : 1200 * image.height / image.width;
 
     var codec = await ui.instantiateImageCodec(
       imageData.buffer.asUint8List(), 

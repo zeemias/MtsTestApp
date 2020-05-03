@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mts_test_app/models/enums/constants.dart';
+import 'package:mts_test_app/models/picture.dart';
 import 'package:mts_test_app/models/pictures.dart';
 
 class ImageViewer extends StatelessWidget {
   final int selectedPageIndex;
 
   ImageViewer({ 
-    this.selectedPageIndex,
+    @required this.selectedPageIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    var picture = Pictures.pictures[selectedPageIndex];
+    Picture picture = Pictures.pictures[selectedPageIndex];
 
     return StreamBuilder<bool>(
       stream: picture.openedController.stream,
-      builder: (context, openedControllerSnapshot) {
+      builder: (context, _) {
         if (!picture.opened)
           return Container();
 
@@ -26,10 +27,6 @@ class ImageViewer extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               Center(
-                // child: Image.asset(
-                //   Pictures.pictures[selectedPageIndex].image,
-                //   fit: BoxFit.fill,
-                // ),
                 child: picture.processedImage,
               ),
               Align(

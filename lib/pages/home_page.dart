@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mts_test_app/models/enums/constants.dart';
 import 'package:mts_test_app/models/pictures.dart';
 import 'package:mts_test_app/pages/components/image_slider.dart';
 import 'package:mts_test_app/pages/components/image_viewer.dart';
@@ -27,16 +28,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE30611),
+      backgroundColor: kMtsRedColor,
       body: OrientationBuilder(
         builder: (context, orientation) {
-          var screenWidth = orientation == Orientation.portrait 
-            ? MediaQuery.of(context).size.width 
-            : MediaQuery.of(context).size.height;
-
-          var padding = orientation == Orientation.portrait 
-            ? 150.0 
-            : 15.0;
+          bool orientationPortrait = orientation == Orientation.portrait;
+          double padding = orientationPortrait 
+            ? MediaQuery.of(context).size.height * 0.15
+            : MediaQuery.of(context).size.height * 0.015;
 
           return Container(
             child: Stack(
@@ -46,9 +44,9 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: EdgeInsets.only(top: padding),
                     child: Text(
-                      'MTC Photoshop',
+                      'MTC Cropper',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: kMtsWhiteColor,
                         fontSize: 40.0,
                         fontWeight: FontWeight.w600,
                       ),
@@ -57,11 +55,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 StreamBuilder<int>(
                   stream: selectedPageIndexController.stream,
-                  builder: (context, selectedPageIndexSnapshot) {
+                  builder: (context, _) {
                     return ImageSlider(
                       selectedPageIndex: selectedPageIndex,
-                      orientation: orientation,
-                      screenWidth: screenWidth,
+                      orientationPortrait: orientationPortrait,
                       onPageChanged: onPageChanged,
                     );
                   }
@@ -72,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.only(bottom: padding),
                     child: StreamBuilder<int>(
                       stream: selectedPageIndexController.stream,
-                      builder: (context, selectedPageIndexSnapshot) {
+                      builder: (context, _) {
                         return OperationButton(
                           selectedPageIndex: selectedPageIndex,
                         );
@@ -82,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 StreamBuilder<int>(
                   stream: selectedPageIndexController.stream,
-                  builder: (context, selectedPageIndexSnapshot) {
+                  builder: (context, _) {
                     return ImageViewer(
                       selectedPageIndex: selectedPageIndex,
                     );
