@@ -20,9 +20,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     selectedPageIndexController = StreamController<int>.broadcast();
-    selectedPageIndexController.stream.listen((index) => {
-      selectedPageIndex = index
-    });
+    selectedPageIndexController.stream
+        .listen((index) => {selectedPageIndex = index});
   }
 
   @override
@@ -32,9 +31,9 @@ class _HomePageState extends State<HomePage> {
       body: OrientationBuilder(
         builder: (context, orientation) {
           bool orientationPortrait = orientation == Orientation.portrait;
-          double padding = orientationPortrait 
-            ? MediaQuery.of(context).size.height * 0.15
-            : MediaQuery.of(context).size.height * 0.015;
+          double padding = orientationPortrait
+              ? MediaQuery.of(context).size.height * 0.15
+              : MediaQuery.of(context).size.height * 0.015;
 
           return Container(
             child: Stack(
@@ -54,27 +53,25 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 StreamBuilder<int>(
-                  stream: selectedPageIndexController.stream,
-                  builder: (context, _) {
-                    return ImageSlider(
-                      selectedPageIndex: selectedPageIndex,
-                      orientationPortrait: orientationPortrait,
-                      onPageChanged: onPageChanged,
-                    );
-                  }
-                ),
+                    stream: selectedPageIndexController.stream,
+                    builder: (context, _) {
+                      return ImageSlider(
+                        selectedPageIndex: selectedPageIndex,
+                        orientationPortrait: orientationPortrait,
+                        onPageChanged: onPageChanged,
+                      );
+                    }),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: padding),
                     child: StreamBuilder<int>(
-                      stream: selectedPageIndexController.stream,
-                      builder: (context, _) {
-                        return OperationButton(
-                          selectedPageIndex: selectedPageIndex,
-                        );
-                      }
-                    ),
+                        stream: selectedPageIndexController.stream,
+                        builder: (context, _) {
+                          return OperationButton(
+                            selectedPageIndex: selectedPageIndex,
+                          );
+                        }),
                   ),
                 ),
                 StreamBuilder<int>(
@@ -100,9 +97,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     selectedPageIndexController.close();
-    Pictures.pictures.forEach((picture) => {
-      picture.dispose()
-    });
+    Pictures.pictures.forEach((picture) => {picture.dispose()});
     super.dispose();
   }
 }

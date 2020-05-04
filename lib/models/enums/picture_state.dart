@@ -1,5 +1,5 @@
 enum PictureState {
-  notProcessed, 
+  notProcessed,
   processing,
   processed,
 }

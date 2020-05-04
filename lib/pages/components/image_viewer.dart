@@ -6,7 +6,7 @@ import 'package:mts_test_app/models/pictures.dart';
 class ImageViewer extends StatelessWidget {
   final int selectedPageIndex;
 
-  ImageViewer({ 
+  ImageViewer({
     @required this.selectedPageIndex,
   });
 
@@ -17,8 +17,7 @@ class ImageViewer extends StatelessWidget {
     return StreamBuilder<bool>(
       stream: picture.openedController.stream,
       builder: (context, _) {
-        if (!picture.opened)
-          return Container();
+        if (!picture.opened) return Container();
 
         return Container(
           decoration: BoxDecoration(

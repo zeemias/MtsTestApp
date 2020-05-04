@@ -8,7 +8,7 @@ import 'package:mts_test_app/services/image_service.dart';
 class OperationButton extends StatelessWidget {
   final int selectedPageIndex;
 
-  OperationButton({ 
+  OperationButton({
     @required this.selectedPageIndex,
   });
 
@@ -35,10 +35,11 @@ class OperationButton extends StatelessWidget {
               ),
               onPressed: () async {
                 picture.stateController.add(PictureState.processing);
-                picture.processedImage = await ImageService.resizeAndCropImage(picture.image);
+                picture.processedImage =
+                    await ImageService.resizeAndCropImage(picture.image);
                 picture.stateController.add(PictureState.processed);
               },
-            ); 
+            );
 
           case PictureState.processed:
             return RaisedButton(

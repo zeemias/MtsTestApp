@@ -9,25 +9,21 @@ class Picture {
   PictureState state;
   Image processedImage;
   StreamController<bool> openedController;
-  StreamController<PictureState> stateController;  
+  StreamController<PictureState> stateController;
 
-  Picture({ 
+  Picture({
     @required this.image,
     this.state = PictureState.notProcessed,
     this.opened = false,
   }) {
     this.openedController = StreamController<bool>.broadcast();
-    this.openedController.stream.listen((opened) => {
-      this.opened = opened
-    });
+    this.openedController.stream.listen((opened) => {this.opened = opened});
 
     this.stateController = StreamController<PictureState>.broadcast();
-    this.stateController.stream.listen((state) => {
-      this.state = state
-    });
+    this.stateController.stream.listen((state) => {this.state = state});
   }
 
-  void dispose(){
+  void dispose() {
     stateController.close();
     openedController.close();
   }

@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:ui' as ui;
 
@@ -10,20 +9,15 @@ class ImageService {
     var imageData = await rootBundle.load(imageSrc);
     var image = await decodeImageFromList(imageData.buffer.asUint8List());
     log('sourceWidth: ${image.width}, sourceHeight: ${image.height}');
-    
-    double resizeWidth = image.width >= image.height
-      ? 1200 
-      : 1200 * image.width / image.height;
 
-    double resizeHeight = image.width <= image.height 
-      ? 1200 
-      : 1200 * image.height / image.width;
+    double resizeWidth =
+        image.width >= image.height ? 1200 : 1200 * image.width / image.height;
 
-    var codec = await ui.instantiateImageCodec(
-      imageData.buffer.asUint8List(), 
-      targetWidth: resizeWidth.toInt(), 
-      targetHeight: resizeHeight.toInt()
-    );
+    double resizeHeight =
+        image.width <= image.height ? 1200 : 1200 * image.height / image.width;
+
+    var codec = await ui.instantiateImageCodec(imageData.buffer.asUint8List(),
+        targetWidth: resizeWidth.toInt(), targetHeight: resizeHeight.toInt());
 
     var frame = await codec.getNextFrame();
     var resizedImage = frame.image;
@@ -42,7 +36,8 @@ class ImageService {
     );
 
     var picture = recorder.endRecording();
-    var croppedImage = await picture.toImage(resizeWidth.toInt(), croppedHeight.toInt());
+    var croppedImage =
+        await picture.toImage(resizeWidth.toInt(), croppedHeight.toInt());
     var byte = await croppedImage.toByteData(format: ui.ImageByteFormat.png);
     var byteList = byte.buffer.asUint8List();
     var imageResult = Image.memory(byteList, fit: BoxFit.fitWidth);

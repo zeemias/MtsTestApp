@@ -8,7 +8,7 @@ class ImageSlider extends StatelessWidget {
   final bool orientationPortrait;
   final Function(int pageIndex) onPageChanged;
 
-  ImageSlider({ 
+  ImageSlider({
     @required this.selectedPageIndex,
     @required this.orientationPortrait,
     @required this.onPageChanged,
@@ -19,12 +19,11 @@ class ImageSlider extends StatelessWidget {
     return PageView(
       controller: PageController(
         initialPage: selectedPageIndex,
-        viewportFraction: orientationPortrait 
-          ? 0.7 
-          : 0.5,
+        viewportFraction: orientationPortrait ? 0.7 : 0.5,
       ),
       children: List<Widget>.generate(
-        Pictures.pictures.length, (index) {
+        Pictures.pictures.length,
+        (index) {
           return Center(
             child: Container(
               height: MediaQuery.of(context).size.shortestSide * 0.65,
@@ -49,12 +48,11 @@ class ImageSlider extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: 30, 
-                            maxWidth: 30
-                          ),
+                          constraints:
+                              BoxConstraints(maxHeight: 30, maxWidth: 30),
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(kMtsRedColor),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(kMtsRedColor),
                           ),
                         ),
                         Text(
@@ -69,10 +67,10 @@ class ImageSlider extends StatelessWidget {
                     ),
                   );
                 },
-              ), 
+              ),
             ),
           );
-        }, 
+        },
         growable: false,
       ),
       onPageChanged: onPageChanged,
