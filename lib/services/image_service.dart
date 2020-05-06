@@ -22,22 +22,31 @@ class ImageService {
     var frame = await codec.getNextFrame();
     var resizedImage = frame.image;
 
-    double croppedHeight = resizeWidth * 0.5625;
-    double verticalSpacing = (resizeHeight - croppedHeight) / 2;
+    double croppedWidth = resizeWidth, croppedHeight = resizeWidth * 0.5625;
+    double verticalSpacingTop = 0.0, verticalSpacingLeft = 0.0;
+
+    if (resizeHeight >= croppedHeight) {
+      verticalSpacingTop = (resizeHeight - croppedHeight) / 2;
+    } else {
+      croppedHeight = resizeHeight;
+      croppedWidth = resizeHeight * 16 / 9;
+      verticalSpacingLeft = (resizeWidth - croppedWidth) / 2;
+    }
 
     var recorder = ui.PictureRecorder();
     var canvas = Canvas(recorder);
 
     canvas.drawImageRect(
       resizedImage,
-      Rect.fromLTWH(0.0, verticalSpacing, resizeWidth, croppedHeight),
-      Rect.fromLTWH(0.0, 0.0, resizeWidth, croppedHeight),
+      Rect.fromLTWH(
+          verticalSpacingLeft, verticalSpacingTop, croppedWidth, croppedHeight),
+      Rect.fromLTWH(0.0, 0.0, croppedWidth, croppedHeight),
       Paint(),
     );
 
     var picture = recorder.endRecording();
     var croppedImage =
-        await picture.toImage(resizeWidth.toInt(), croppedHeight.toInt());
+        await picture.toImage(croppedWidth.toInt(), croppedHeight.toInt());
     var byte = await croppedImage.toByteData(format: ui.ImageByteFormat.png);
     var byteList = byte.buffer.asUint8List();
     var imageResult = Image.memory(byteList, fit: BoxFit.fitWidth);

@@ -3,6 +3,9 @@ import 'package:mts_test_app/models/picture.dart';
 class Pictures {
   static List<Picture> pictures = [
     Picture(
+      image: "assets/images/image21_9.jpg",
+    ),
+    Picture(
       image: "assets/images/image1.jpg",
     ),
     Picture(
